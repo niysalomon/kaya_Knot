@@ -9,22 +9,25 @@ import kaya_knot.kayaKnot.util.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class HousePhotoController {
     @Autowired
     private HousePhotoService housePhotoService;
     @Autowired
     private HouseService houseService;
     @PostMapping("create_house_photo")
-    public ResponseEntity<Map<String,Object>> createNewOffer(@RequestBody HousePhotoDTO housePhotoDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewOffer(@RequestBody HousePhotoDTO housePhotoDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HousePhoto housePhoto= new HousePhoto();
@@ -49,14 +52,10 @@ public class HousePhotoController {
 
     @PostMapping("/upload_house_photo")
     public ResponseEntity<HousePhoto> createNewHousePhoto(@RequestPart("file") MultipartFile file,
-                                                                  @RequestPart("info") HousePhotoDTO housePhotoDTO, HttpServletRequest request){
+                                                          @RequestPart("info") HousePhotoDTO housePhotoDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         System.out.println("=============upload");
         try {
-//            HousePhoto housePhoto= new HousePhoto();
-//
-//            housePhoto.setHousePhoto(housePhotoDTO.getHousePhoto());
-//            housePhoto.setHouseId(houseService.fetchHouseById(housePhotoDTO.getHouseId()));
             HousePhoto housePhoto=housePhotoService.uploadHousePhoto(file,housePhotoDTO);
             map.put("status","success");
             map.put("data",housePhoto);
@@ -72,7 +71,7 @@ public class HousePhotoController {
         }
     }
     @GetMapping("fetch_house_photo/{id}")
-    public ResponseEntity<Map<String,Object>> getHousePhotoById(@PathVariable("id") String id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHousePhotoById(@PathVariable("id") String id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             List<HousePhoto> housePhoto= housePhotoService.getHousePhotoByHouse(id);

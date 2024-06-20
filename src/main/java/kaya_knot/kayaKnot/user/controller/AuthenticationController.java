@@ -26,8 +26,6 @@ public class AuthenticationController {
     @GetMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) throws Exception {
         try {
-            System.out.println("================="+authenticationRequest.getEmail());
-            System.out.println("================="+authenticationRequest.getPassword());
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );

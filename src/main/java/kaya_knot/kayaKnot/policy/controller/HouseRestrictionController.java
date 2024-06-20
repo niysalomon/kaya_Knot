@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class HouseRestrictionController {
     @Autowired
     private HouseRestrictionService houseRestrictionService;

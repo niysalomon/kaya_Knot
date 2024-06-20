@@ -8,21 +8,25 @@ import kaya_knot.kayaKnot.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class SearchingController {
     @Autowired
     private SearchRentingService searchRentingService;
     @Autowired
     private UsersService usersService;
     @PostMapping("create_searching")
-    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody SearchingDTO searchingDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody SearchingDTO searchingDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             SearchRenting searchRenting=new SearchRenting();

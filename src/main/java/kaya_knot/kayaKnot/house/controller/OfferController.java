@@ -9,18 +9,21 @@ import kaya_knot.kayaKnot.policy.entity.dto.HouseRestrictionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class OfferController {
     @Autowired
     private OfferService offerService;
     @PostMapping("create_new_offer")
-    public ResponseEntity<Map<String,Object>> createNewOffer(@RequestBody OfferDTO offerDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewOffer(@RequestBody OfferDTO offerDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             Offers offers=new Offers();
@@ -43,7 +46,7 @@ public class OfferController {
     }
 
     @PostMapping("update_offer")
-    public ResponseEntity<Map<String,Object>> updatePersonalPolicy(@RequestBody OfferDTO offerDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> updatePersonalPolicy(@RequestBody OfferDTO offerDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             Offers offers=new Offers();

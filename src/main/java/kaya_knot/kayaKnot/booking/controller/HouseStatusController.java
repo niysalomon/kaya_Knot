@@ -9,16 +9,16 @@ import kaya_knot.kayaKnot.house.service.HouseSingleUnityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
+@RequestMapping("/kaya")
 public class HouseStatusController {
     @Autowired
     private HouseStatusService houseStatusService;
@@ -27,7 +27,7 @@ public class HouseStatusController {
     @Autowired
     private HouseSingleUnityService houseSingleUnityService;
     @PostMapping("create_new_house_status")
-    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody HouseStatusDTO houseStatusDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody HouseStatusDTO houseStatusDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseStatus houseStatus=new HouseStatus();
@@ -57,7 +57,7 @@ public class HouseStatusController {
     }
 
     @GetMapping("fetch_houseStatus_by_id/{id}")
-    public ResponseEntity<Map<String,Object>> getHouseStatusById(@PathVariable("id") String id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHouseStatusById(@PathVariable("id") String id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseStatus houseStatus=houseStatusService.fetchHouseStatusById(id);
@@ -76,7 +76,7 @@ public class HouseStatusController {
     }
 
     @GetMapping("fetch_houseStatus_by_house/{house_id}")
-    public ResponseEntity<Map<String,Object>> getHouseStatusByUserId(@PathVariable("house_id") String house_id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHouseStatusByUserId(@PathVariable("house_id") String house_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseStatus houseStatus=houseStatusService.fetchHouseStatusByHouse(house_id);

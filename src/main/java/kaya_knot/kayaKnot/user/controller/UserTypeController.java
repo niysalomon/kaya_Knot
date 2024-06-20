@@ -2,12 +2,9 @@ package kaya_knot.kayaKnot.user.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import io.jsonwebtoken.Claims;
 import kaya_knot.kayaKnot.configurations.JwtUtil;
 import kaya_knot.kayaKnot.user.entity.UserType;
-import kaya_knot.kayaKnot.user.entity.Users;
 import kaya_knot.kayaKnot.user.entity.userDTO.UserTypeDTO;
-import kaya_knot.kayaKnot.user.entity.userDTO.UsersDTO;
 import kaya_knot.kayaKnot.user.service.UserTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/kaya")
 public class UserTypeController {
     @Autowired
     private UserTypeService userTypeService;

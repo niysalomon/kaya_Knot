@@ -8,23 +8,23 @@ import kaya_knot.kayaKnot.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class UserRestrictionController {
     @Autowired
     private UserRestrictionService userRestrictionService;
     @Autowired
     private UsersService usersService;
     @PostMapping("create_new_personal_restriction")
-    public ResponseEntity<Map<String,Object>> createNewPersonalRestriction(@RequestBody UserRestrictionDTO userRestrictionDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewPersonalRestriction(@RequestBody UserRestrictionDTO userRestrictionDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             UserRestriction userRestriction= new UserRestriction();
@@ -53,7 +53,7 @@ public class UserRestrictionController {
     }
 
     @PostMapping("update_personal_restriction")
-    public ResponseEntity<Map<String,Object>> updatePersonalRestriction(@RequestBody UserRestrictionDTO userRestrictionDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> updatePersonalRestriction(@RequestBody UserRestrictionDTO userRestrictionDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             UserRestriction userRestriction= new UserRestriction();
@@ -83,7 +83,7 @@ public class UserRestrictionController {
     }
 
     @PostMapping("get_single_restriction/{id}")
-    public ResponseEntity<Map<String,Object>> getPersonalPolicy(@PathVariable("id") String id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getPersonalPolicy(@PathVariable("id") String id,  @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             UserRestriction userRestriction=userRestrictionService.fetchSingleUserRestrictionById(id);
@@ -103,7 +103,7 @@ public class UserRestrictionController {
     }
 
     @PostMapping("get_personal_restriction_by_user/{user_id}")
-    public ResponseEntity<Map<String,Object>> getPersonalPolicyByUser(@PathVariable("user_id") String user_id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getPersonalPolicyByUser(@PathVariable("user_id") String user_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             List<UserRestriction> userRestrictionList=userRestrictionService.fetchRestrictionsByUser(user_id);

@@ -9,13 +9,16 @@ import kaya_knot.kayaKnot.house.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class HouseOfferController {
     @Autowired
     private OfferService offerService;
@@ -24,7 +27,7 @@ public class HouseOfferController {
     @Autowired
     private HouseOfferService houseOfferService;
     @PostMapping("create_new_house_offer")
-    public ResponseEntity<Map<String,Object>> createNewOffer(@RequestBody HouseOfferDTO houseOfferDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewOffer(@RequestBody HouseOfferDTO houseOfferDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseOffers houseOffers = new HouseOffers();
@@ -48,7 +51,7 @@ public class HouseOfferController {
     }
 
     @GetMapping("get_house_offer_by_house/{house_id}")
-    public ResponseEntity<Map<String,Object>> getHouseOfferByHouse(@PathVariable("house_id") String house_id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHouseOfferByHouse(@PathVariable("house_id") String house_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             List<HouseOffers> houseOffers=houseOfferService.fetchByHousesId(house_id);
@@ -68,7 +71,7 @@ public class HouseOfferController {
     }
 
     @GetMapping("get_house_offer_by_offer/{offer_id}")
-    public ResponseEntity<Map<String,Object>> getHouseOfferByOffer(@PathVariable("offer_id") String offer_id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHouseOfferByOffer(@PathVariable("offer_id") String offer_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             List<HouseOffers> houseOffers=houseOfferService.fetchByOffersId(offer_id);

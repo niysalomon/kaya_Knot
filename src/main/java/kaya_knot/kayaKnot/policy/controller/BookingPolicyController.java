@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class BookingPolicyController {
     @Autowired
     private BookingPolicyService bookingPolicyService;

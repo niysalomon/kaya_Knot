@@ -10,9 +10,11 @@ import kaya_knot.kayaKnot.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class UserRestController {
     @Autowired
     private UsersService usersService;
@@ -66,7 +69,7 @@ public class UserRestController {
 
     }
     @RequestMapping(value = "/get_users", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getUsers(HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> getUsers(HttpServletRequest request ,@AuthenticationPrincipal Principal principal) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<Users> fetchedUsers=usersService.fetchAllUsers();
@@ -85,7 +88,7 @@ public class UserRestController {
 
 
 @GetMapping("get_single_user/{user_id}")
-    public ResponseEntity<Map<String,Object>> getSingleUser(@PathVariable("user_id") String user_id,HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getSingleUser(@PathVariable("user_id") String user_id,HttpServletRequest request ,@AuthenticationPrincipal Principal principal){
         Map<String,Object> map= new HashMap<>();
         try {
             Users users=usersService.fetchUserById(user_id);

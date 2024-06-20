@@ -25,7 +25,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtUtil jwtTokenUtil;
-    private String secretKey = "your_secret_key"; // Replace with your actual secret key
+    private String secretKey = "YAKAKNOT"; // Replace with your actual secret key
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

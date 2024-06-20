@@ -9,13 +9,16 @@ import kaya_knot.kayaKnot.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class HouseController {
     @Autowired
     private HouseService houseService;
@@ -24,7 +27,7 @@ public class HouseController {
     @Autowired
     private UsersService usersService;
     @PostMapping("create_new_house")
-    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody HouseDTO houseDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody HouseDTO houseDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             House house=new House();
@@ -58,7 +61,7 @@ public class HouseController {
     }
 
     @PostMapping("update_house")
-    public ResponseEntity<Map<String,Object>> updateHouseType(@RequestBody HouseDTO houseDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> updateHouseType(@RequestBody HouseDTO houseDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             House house=new House();
@@ -110,7 +113,7 @@ public class HouseController {
     }
 
     @GetMapping("fetch_house_land_lord/{land_id}")
-    public ResponseEntity<Map<String,Object>> getHouseTypeByLandLord(@PathVariable("land_id") String land_id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHouseTypeByLandLord(@PathVariable("land_id") String land_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             List<House> house=houseService.fetchHouseByLandLord(land_id);

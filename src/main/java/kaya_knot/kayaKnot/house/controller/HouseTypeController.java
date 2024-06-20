@@ -7,18 +7,21 @@ import kaya_knot.kayaKnot.house.service.HouseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class HouseTypeController {
     @Autowired
     private HouseTypeService houseTypeService;
     @PostMapping("create_new_house_type")
-    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody HouseTypeDTO houseTypeDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> createNewHouseType(@RequestBody HouseTypeDTO houseTypeDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseType houseType=new HouseType();
@@ -41,7 +44,7 @@ public class HouseTypeController {
     }
 
     @PostMapping("update_house_type")
-    public ResponseEntity<Map<String,Object>> updateHouseType(@RequestBody HouseTypeDTO houseTypeDTO, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> updateHouseType(@RequestBody HouseTypeDTO houseTypeDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseType houseType=new HouseType();
@@ -64,7 +67,7 @@ public class HouseTypeController {
     }
 
     @PostMapping("fetch_house_type/{id}")
-    public ResponseEntity<Map<String,Object>> getHouseTypeById(@PathVariable("id") String id, HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getHouseTypeById(@PathVariable("id") String id, @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             HouseType houseType=houseTypeService.fetchHouseById(id);
@@ -84,7 +87,7 @@ public class HouseTypeController {
     }
 
     @GetMapping("get_all_house_type")
-    public ResponseEntity<Map<String,Object>> getPersonalPolicyByUser( HttpServletRequest request){
+    public ResponseEntity<Map<String,Object>> getPersonalPolicyByUser( @AuthenticationPrincipal Principal principal, HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
         try {
             List<HouseType> houseTypeList= houseTypeService.fetchAllHouseTypes();

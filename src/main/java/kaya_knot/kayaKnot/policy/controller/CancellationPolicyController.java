@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/kaya")
 public class CancellationPolicyController {
     @Autowired
     private CancellationPolicyService cancellationPolicyService;
