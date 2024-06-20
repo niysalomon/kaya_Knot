@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/public/**","/authenticate","/create_new_user").permitAll()  // Public endpoints
+                .antMatchers("/public/**","/authenticate","/kaya/create_new_user").permitAll()  // Public endpoints
                 .anyRequest().authenticated()          // Secure all other endpoints
                 .and()
                 .formLogin()

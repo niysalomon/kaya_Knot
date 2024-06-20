@@ -7,7 +7,6 @@ import kaya_knot.kayaKnot.payload.response.CustomPrincipal;
 import kaya_knot.kayaKnot.user.entity.Users;
 import kaya_knot.kayaKnot.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -48,7 +47,7 @@ private UsersService usersService;
         Users users=usersService.findUserByEmail(username);
         Map<String, Object> claims = new HashMap<>();
         claims.put("user",users.getId());
-        claims.put("type",users.getUserType().getUserType());
+        claims.put("type",users.getUserType());
         claims.put("names",users.getFirstName()+' '+users.getLastName());
     return createToken(claims, username);
     }

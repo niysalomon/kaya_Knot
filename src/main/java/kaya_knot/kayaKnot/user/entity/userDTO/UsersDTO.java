@@ -13,7 +13,7 @@ import java.sql.Blob;
 @Setter
 @NoArgsConstructor
 public class UsersDTO {
-    private long id;
+    private String id;
     private String firstName;
     private String lastName;
     private String fullName;

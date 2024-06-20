@@ -38,7 +38,6 @@ public class HouseStatusController {
             houseStatus.setLandLordConfirmation("PENDING");
             houseStatus.setPrice(houseStatusDTO.getPrice());
             houseStatus.setActive(true);
-            System.out.println("-----"+houseSingleUnityService.fetchUnityHouseById(houseStatusDTO.getHouseSingleUnity()));
             houseStatus.setHouseSingleUnity(houseSingleUnityService.fetchUnityHouseById(houseStatusDTO.getHouseSingleUnity()));
             houseStatusService.createNewHouseStatus(houseStatus);
             map.put("status","success");

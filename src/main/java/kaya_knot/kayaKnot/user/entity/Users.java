@@ -42,10 +42,8 @@ public class Users {
     @Lob
     @Column(name="cover_photo" , columnDefinition = "LONGTEXT")
     private String coverPhoto;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_type", nullable = false)
-    @JsonManagedReference
-    private UserType userType;
+    @Column(name = "user_type", columnDefinition = "varchar(50) default 'RENTER'")
+    private String userType;
     @Column(name = "is_active", columnDefinition = "boolean default true")
     private boolean isActive;
     @Column(name = "is_deleted", columnDefinition = "boolean default false")

@@ -42,7 +42,7 @@ public class Corenting {
 
     @Column(name = "createdBy")
     @CreatedBy
-    private long createdBy;
+    private String createdBy;
 
     @Column(name = "updatedDate")
     @LastModifiedDate
@@ -50,6 +50,6 @@ public class Corenting {
 
     @Column(name = "lastUpdatedBy")
     @LastModifiedBy
-    private long lastUpdatedBy;
+    private String lastUpdatedBy;
 
 }

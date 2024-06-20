@@ -47,8 +47,47 @@ public class UserRestController {
             users.setNidPassport(usersDTO.getNidPassport());
             users.setPhone(usersDTO.getPhone());
             users.setPassword(passwordEncoder.encode( usersDTO.getPassword()));
-            users.setUserType(userTypeService.getUserTypeById(usersDTO.getUserType()));
+            users.setUserType(usersDTO.getUserType());
             users.setEmail(usersDTO.getEmail());
+            users.setCreatedDate(new Timestamp(new Date().getTime()));
+            users.setUpdatedDate(new Timestamp(new Date().getTime()));
+            users.setActive(true);
+            users.setDeleted(false);
+            users.setProfilePicture(usersDTO.getProfilePicture());
+            users.setCoverPhoto(usersDTO.getCoverPhoto());
+            usersService.createNewUser(users);
+            map.put("data", users);
+            map.put("message", "user created successful");
+            map.put("status", "success");
+            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+
+        }
+        catch (Exception e) {
+            map.put("message", e);
+            map.put("status", "fail");
+            // e.printStackTrace();
+            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("update_user")
+    public ResponseEntity<Map<String,Object>> updateUser(@RequestBody UsersDTO usersDTO, HttpServletRequest request){
+        Map<String, Object> map = new HashMap<>();
+        try {
+            Users users= new Users();
+            users.setId(usersDTO.getId());
+            users.setFirstName(usersDTO.getFirstName());
+            users.setLastName(usersDTO.getLastName());
+            users.setLandLord(usersDTO.isLandLord());
+            users.setGender(usersDTO.getGender());
+            users.setNationality(usersDTO.getNationality());
+            users.setIdentityType(usersDTO.getIdentityType());
+            users.setNidPassport(usersDTO.getNidPassport());
+            users.setUserType(usersDTO.getUserType());
+            users.setPhone(usersDTO.getPhone());
+            users.setEmail(usersDTO.getEmail());
+            users.setUpdatedDate(new Timestamp(new Date().getTime()));
             users.setActive(true);
             users.setDeleted(false);
             users.setProfilePicture("usersDTO.getPassword(setProfilePicture)");

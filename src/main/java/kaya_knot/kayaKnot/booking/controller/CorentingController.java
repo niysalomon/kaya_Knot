@@ -22,10 +22,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 @RestController
 @RequestMapping("/kaya")
@@ -42,15 +40,21 @@ public class CorentingController {
     private HousePhotoService housePhotoService;
 
     @PostMapping("create_corenting")
-    public ResponseEntity<Map<String, Object>> createNewHouseType(@RequestBody UserHouseJoinDTO userHouseJoinDTO, @AuthenticationPrincipal Principal principal, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> createNewHouseType(@RequestBody UserHouseJoinDTO userHouseJoinDTO,  Principal principal, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         try {
+            Users loggedUser=usersService.findUserByEmail(principal.getName());
             Corenting corenting = new Corenting();
             corenting.setHouseStatusId(houseStatusService.fetchHouseStatusById(userHouseJoinDTO.getHouseStatusId()));
             corenting.setRenterId(usersService.fetchUserById(userHouseJoinDTO.getRenterId()));
             corenting.setRenterComment(userHouseJoinDTO.getRenterComment());
             corenting.setActive(true);
             corenting.setRenterStatus("READY");
+
+            corenting.setCreatedBy(loggedUser.getId());
+            corenting.setLastUpdatedBy(loggedUser.getId());
+            corenting.setCreatedDate(new Timestamp(new Date().getTime()));
+            corenting.setUpdatedDate(new Timestamp(new Date().getTime()));
             corentingService.createNewCorenting(corenting);
 
             map.put("status", "success");
@@ -68,7 +72,7 @@ public class CorentingController {
     }
 
     @GetMapping("fetch_corenting_by_house/{house_id}")
-    public ResponseEntity<Map<String, Object>> getHouseTypeById(@PathVariable("house_id") String house_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> getHouseTypeById(@PathVariable("house_id") String house_id,  HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         try {
             List<CorentingUserHouseDTO> corenting = corentingService.fetchCorentingByHouseStatusId(house_id);
@@ -87,7 +91,7 @@ public class CorentingController {
     }
 
     @GetMapping("fetch_corentingByHouseStatus/{status_id}")
-    public ResponseEntity<Map<String, Object>> getHouseDetailByHouse(@PathVariable("status_id") String status_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> getHouseDetailByHouse(@PathVariable("status_id") String status_id,  Principal principal, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         try {
             List<CorentingUserHouseDTO> corenting = corentingService.fetchCorentingByHouseStatusId(status_id);
@@ -117,7 +121,7 @@ public class CorentingController {
     }
 
     @GetMapping("corenting_details/{house_id}")
-    public ResponseEntity<RequestResponse> getCorentingDetails(@PathVariable String house_id, @AuthenticationPrincipal Principal principal, HttpServletRequest request) {
+    public ResponseEntity<RequestResponse> getCorentingDetails(@PathVariable String house_id, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         try {
             Gson gson = new Gson();
