@@ -56,13 +56,13 @@ public class HousePhotoServiceImpl implements HousePhotoService {
     @Override
     public HousePhoto uploadHousePhoto(MultipartFile file, HousePhotoDTO housePhotoDTO) throws IOException {
         createUploadDirIfNotExists(); // Ensure the directory exists before saving the file
-System.out.println("============="+file);
+System.out.println("=-------------="+file);
+System.out.println("-----------"+housePhotoDTO.getHouseId());
         String fileName = file.getOriginalFilename();
         Path filePath = Paths.get(uploadDir, fileName);
-        Files.copy(file.getInputStream(), filePath);
+//        Files.copy(file.getInputStream(), filePath);
 
         HousePhoto housePhoto=new HousePhoto();
-        housePhoto.setHousePhoto(housePhotoDTO.getHousePhoto());
         housePhoto.setHouseId(houseService.fetchHouseById(housePhotoDTO.getHouseId()));
         housePhoto.setFilePath(filePath.toString());
         housePhoto.setFileName(fileName);

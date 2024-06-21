@@ -27,11 +27,13 @@ public class HousePhoto {
     @JoinColumn(name = "house_id", nullable = false)
     @JsonManagedReference
     private House houseId;
-    @Lob
-    @Column(name="house_photo" , columnDefinition = "LONGTEXT")
-    private String housePhoto;
+
+    @Column(name="file_name" , columnDefinition = "LONGTEXT")
     private String fileName;
+    @Column(name="file_path" , columnDefinition = "LONGTEXT")
     private String filePath;
+    private long size;
+    private String extension;
     private String description;
 
     private boolean isDeleted;
